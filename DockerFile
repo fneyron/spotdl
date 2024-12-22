@@ -1,0 +1,18 @@
+# Utiliser une image Python légère
+FROM python:3.9-slim
+
+# Installer les dépendances nécessaires
+RUN apt-get update && apt-get install -y ffmpeg && \
+    pip install --no-cache-dir spotdl
+
+# Définir le répertoire de travail
+WORKDIR /app
+
+# Ajouter un dossier pour les téléchargements
+RUN mkdir -p /app/downloads
+
+# Exposer le port 5000 pour l'interface Web
+EXPOSE 5000
+
+# Commande par défaut : démarrer l'interface Web
+CMD ["spotdl", "web", "--host", "0.0.0.0", "--port", "5000", "--client-id", "c5bb50c4d0dc40308691b34763eb48a4", "--client-secret", "8c2576cc76be415aa3abacbc62bb96fc"]
